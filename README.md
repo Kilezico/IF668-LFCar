@@ -2,7 +2,7 @@
 Projeto de Introdução à Computação. Carrinho seguidor de linha.
 
 ## Projeto
-_fork_ do projeto IF668-LFCar do Seu Monitor Filipe Santos. Aqui preenchemos a função _algorithm_ com o nosso algoritmo seguidor de linhas.
+_fork_ do projeto IF668-LFCar do Seu Monitor Filipe Santos. Aqui preenchemos o arquivo _algorithm.ino_ com o nosso algoritmo seguidor de linhas.
 
 ### Integrantes do grupo
 - Eu
