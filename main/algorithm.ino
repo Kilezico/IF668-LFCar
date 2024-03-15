@@ -3,7 +3,7 @@
 bool esquerda = true;
 bool achouLinha = false;
 unsigned int comeco = 0;
-const int delayForaDaLinha = 50;
+const int delayFora = 175;
 
 void perdi_a_linha() {
   int achou = stayOnBlackLine();
@@ -34,20 +34,20 @@ void perdi_a_linha() {
   }
 }
 
-void vira() {
-   if (esquerda) turnRight(70);
-   else turnLeft(70);
-   esquerda = !esquerda;
-}
-
+// O CÓDIGO QUE DEU CERTO!!!!
 void algorithm(){
-  // Pinguim
-  vira();
-  while(stayOnBlackLine() || !achouLinha || millis()-comeco <= delayForaDaLinha) {
+  setVelocity(0, 70);
+  setVelocity(1, 70);
+  achouLinha = false;
+  esquerda = !esquerda;
+
+  while (stayOnBlackLine() || !achouLinha || ((millis() - comeco) < delayFora)) {
+    if (esquerda) turnLeft();
+    else turnRight();
     if (stayOnBlackLine()) {
-      achouLinha = 1;
-      comeco = millis(); // recomeça o contador
+      achouLinha = true;
+      comeco = millis();
     }
-  }   
-  //perdi_a_linha();
+    delay(10);
+  }
 }
