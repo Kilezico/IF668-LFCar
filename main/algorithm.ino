@@ -1,6 +1,9 @@
 //define as variaveis
 
 bool esquerda = true;
+bool achouLinha = false;
+unsigned int comeco = 0;
+const int delayForaDaLinha = 50;
 
 void perdi_a_linha() {
   int achou = stayOnBlackLine();
@@ -39,10 +42,12 @@ void vira() {
 
 void algorithm(){
   // Pinguim
-  int achou = 0;
   vira();
-  while(stayOnBlackLine() || !achou) {
-    if (stayOnBlackLine()) achou = 1;
+  while(stayOnBlackLine() || !achouLinha || millis()-comeco <= delayForaDaLinha) {
+    if (stayOnBlackLine()) {
+      achouLinha = 1;
+      comeco = millis(); // recomeça o contador
+    }
   }   
   //perdi_a_linha();
 }
