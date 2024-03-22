@@ -3,51 +3,34 @@
 bool esquerda = true;
 bool achouLinha = false;
 unsigned int comeco = 0;
-const int delayFora = 175;
+const int delaySemLinha = 200; // delei
 
-void perdi_a_linha() {
-  int achou = stayOnBlackLine();
-  while(!achou) {
-    unsigned long t1 = millis(); // tempo inicial antes da curva
-    
-    // procura um pouco aa esquerda
-    if (!achou) turnLeft();
-    while(millis() < t1 + 1000 && (!achou)) {
-      if(stayOnBlackLine()) {
-        achou = 1;
-        stop();
-      }
-      //Serial.println("achei a linha aa esquerda");
-    }
 
-    t1 = millis(); // atualiza o tempo inicial pra a curva direita, se necessaria
-    if (!achou) turnRight();
-    while(millis() < t1 + 2000 && (!achou)) { // volta e procura um pouco aa direita, se ainda nao achou a linha
-      if(stayOnBlackLine()) {
-        achou = 1;
-        stop();
-      }
-      //Serial.println("achei a linha aa direita");
-    }
+void vira(int vel) 
+{
+  if (esquerda) turnLeft(vel);
+  else turnRight(vel);
 
-    if(!achou) printf("nao achei :(\n");
-  }
+  esquerda = !esquerda;
 }
 
-// O CÓDIGO QUE DEU CERTO!!!!
-void algorithm(){
-  setVelocity(0, 70);
-  setVelocity(1, 70);
-  achouLinha = false;
-  esquerda = !esquerda;
 
-  while (stayOnBlackLine() || !achouLinha || ((millis() - comeco) < delayFora)) {
-    if (esquerda) turnLeft();
-    else turnRight();
+void algorithm(){
+  achouLinha = false;
+  vira(70);
+  comeco = millis(); // começa o "timer"
+  while (stayOnBlackLine() || !achouLinha) {
     if (stayOnBlackLine()) {
       achouLinha = true;
-      comeco = millis();
+    } else if (!achouLinha && (millis() - comeco) > delaySemLinha) {
+      // Ainda não achou a linha e já tá a tempo demais sem achar
+      stop(); // Só pra testar
+      // // Vira até achar a linha.
+      // vira(70);
+      // while(!stayOnBlackLine());
+      // achouLinha = true;
     }
-    delay(10);
+
+    delay(1); // delei
   }
 }
